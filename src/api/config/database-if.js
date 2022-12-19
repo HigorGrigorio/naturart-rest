@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path: '.env1'});
 
 const {
     DATABASE_HOST,

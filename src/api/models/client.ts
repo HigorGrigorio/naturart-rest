@@ -46,6 +46,11 @@ export class Client extends Model<InferAttributes<Client>, InferCreationAttribut
     declare telephone: string;
 
     /**
+     * Identifier of the address.
+     */
+    declare idAddress: ForeignKey<Address['id']>;
+
+    /**
      * Date of creation.
      */
     declare createdAt: CreationOptional<Date>;

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "ts-node src/api",
     "build": "npx tsc",
+    "dist": "node dist",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "windowsDebug": "@powershell -Command $env:DEBUG='*' & @powershell -Command $env:DEBUG_COLORS=1; sucrase-node ./dist/index.js"
   },

@@ -11,6 +11,7 @@ import {Sequelize} from "sequelize";
 import {State} from "./state";
 import {District} from "./district";
 import {StreetCity} from "./street-city";
+import {Address} from "./address";
 
 export class City extends Model<InferAttributes<City>, InferCreationAttributes<City>> {
     /**

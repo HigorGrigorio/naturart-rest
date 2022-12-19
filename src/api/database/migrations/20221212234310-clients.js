@@ -56,6 +56,10 @@ module.exports = {
                 msg: 'Telephone cannot be null'
             }
         },
+        idAddress: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            allowNull: true,
+        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,

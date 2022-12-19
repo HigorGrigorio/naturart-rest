@@ -28,7 +28,7 @@ export class ZipCodeService extends AbstractService<ZipCode> {
      */
     async getAll(): Promise<NaturartResponse<ZipCode[]>> {
         const result = await ZipCode.findAll({
-            attributes: ['id', 'createdAt', 'updatedAt'],
+            attributes: ['id', 'createdAt', 'updatedAt', 'code'],
             include: [{
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 model: City,

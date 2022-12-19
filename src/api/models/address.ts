@@ -39,11 +39,6 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
     declare idDistrictCity: number;
 
     /**
-     * Identifier of client.
-     */
-    declare idClient: number;
-
-    /**
      * Date of creation.
      */
     declare createdAt: CreationOptional<Date>;
@@ -77,9 +72,6 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
                     type: DataTypes.INTEGER.UNSIGNED,
                 },
                 idZipCode: {
-                    type: DataTypes.INTEGER.UNSIGNED,
-                },
-                idClient: {
                     type: DataTypes.INTEGER.UNSIGNED,
                 },
                 createdAt: DataTypes.DATE,

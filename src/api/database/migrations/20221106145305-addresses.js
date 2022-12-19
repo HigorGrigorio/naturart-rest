@@ -41,10 +41,6 @@ module.exports = {
                 type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
             },
-            idClient: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
             createdAt: {
                 type: DataTypes.DATE,
                 allowNull: false,
