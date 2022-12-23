@@ -15,6 +15,7 @@ import ZipCodeController from "../controllers/zip-code-controller";
 import {AddressController} from "../controllers/address-controller";
 import {SensorTypeController} from "../controllers/sensor-type-controller";
 import ClientController from "../controllers/client-controller";
+import {InvoiceController} from "../controllers/invoice-controller";
 
 export class App {
     private static _instance?: App | null = null;
@@ -42,7 +43,8 @@ export class App {
             .register('cep', ZipCodeController.default())
             .register('address', AddressController.default())
             .register('sensorType', SensorTypeController.default())
-            .register('client', ClientController.default());
+            .register('client', ClientController.default())
+            .register('invoice', InvoiceController.default())
 
         this.core
             .use(express.urlencoded({extended: true}))

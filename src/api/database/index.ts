@@ -11,6 +11,7 @@ import {ZipCode} from "../models/zip-code";
 import {Address} from "../models/address";
 import {SensorType} from "../models/sensor-type";
 import {Client} from "../models/client";
+import {Invoice} from "../models/invoice";
 
 const models: any = [
     District,
@@ -23,7 +24,8 @@ const models: any = [
     ZipCode,
     Address,
     SensorType,
-    Client
+    Client,
+    Invoice
 ];
 
 const connection = new Sequelize(config);

@@ -49,6 +49,16 @@ export class ClientService extends AbstractService<Client> {
         });
     }
 
+    async getAll(): Promise<NaturartResponse<Client[]>> {
+        const result = await Client.findAll({
+            include: ['address']
+        })
+
+        return new NaturartResponse<Client[]>({
+            data: result,
+        })
+    }
+
     async getByCpf(cpf: string): Promise<NaturartResponse<Client>> {
         if (!CPFValidator.isValid(cpf)) {
             return new NaturartResponse<Client>({
@@ -113,15 +123,6 @@ export class ClientService extends AbstractService<Client> {
         });
     }
 
-    async getAddressesByClientId(id: number): Promise<NaturartResponse<Address[]>> {
-        const result = await Address.findAll({where: {idClient: id}});
-
-        return new NaturartResponse<Address[]>({
-            data: result,
-            msg: 'Search performs successfully'
-        });
-    }
-
     async getInvoicesByClientId(id: number) {
         // TODO
     }
@@ -137,7 +138,7 @@ export class ClientService extends AbstractService<Client> {
         // check password.
         const {password} = result.data || {pass: ''};
 
-        if (!(password !== pass)) {
+        if (password !== pass) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid Login Credentials'

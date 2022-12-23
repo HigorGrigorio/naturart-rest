@@ -153,7 +153,6 @@ export abstract class AbstractController<M extends Model> implements IController
             const {id} = attributes;
             const response = await this.service.update({id}, attributes);
 
-            response.msg = 'Operation performs successfully';
 
             return res.json(response);
         } catch (e: any) {

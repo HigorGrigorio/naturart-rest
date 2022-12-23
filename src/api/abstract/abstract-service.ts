@@ -31,7 +31,8 @@ export abstract class AbstractService<M extends Model> implements IService<M> {
         const result = await this.model.create({...attributes});
 
         return new NaturartResponse<M>({
-            data: result
+            data: result,
+            msg: 'Persist performs successfully'
         })
     }
 
@@ -47,7 +48,8 @@ export abstract class AbstractService<M extends Model> implements IService<M> {
         });
 
         return new NaturartResponse<number>({
-            data: result
+            data: result,
+            msg: 'Deleted performs successfully'
         })
     }
 
@@ -60,7 +62,8 @@ export abstract class AbstractService<M extends Model> implements IService<M> {
         const result = await this.model.findAll();
 
         return new NaturartResponse<M[]>({
-            data: result
+            data: result,
+            msg: 'Search performs successfully'
         })
     }
 
@@ -82,7 +85,7 @@ export abstract class AbstractService<M extends Model> implements IService<M> {
 
         return new NaturartResponse<M>({
             data: result,
-            msg: ''
+            msg: 'Search performs successfully'
         });
     }
 
@@ -101,7 +104,8 @@ export abstract class AbstractService<M extends Model> implements IService<M> {
             }).then(result => result[0])
 
         return new NaturartResponse<number>({
-            data: result
+            data: result,
+            msg: 'Search performs successfully'
         })
     }
 }

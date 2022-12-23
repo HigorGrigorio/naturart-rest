@@ -4,7 +4,7 @@ import {
     ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    Model, NonAttribute,
+    Model, ModelStatic, NonAttribute,
     Sequelize
 } from "sequelize";
 import {Address} from "./address";
@@ -105,5 +105,17 @@ export class Client extends Model<InferAttributes<Client>, InferCreationAttribut
                 updatedAt: DataTypes.DATE,
             },
             {sequelize: sequelize});
+    }
+
+    public static associate(models: { [key: string]: ModelStatic<Model>; }) {
+        this.belongsTo(models.Address, {
+            as: 'address',
+            foreignKey: 'idAddress'
+        })
+
+        this.hasMany(models.Invoice, {
+            as: 'invoices',
+            foreignKey: 'idClient'
+        })
     }
 }

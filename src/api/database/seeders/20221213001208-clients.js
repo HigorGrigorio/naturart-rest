@@ -11,7 +11,8 @@ module.exports = {
               birthDate: '2001-12-23',
               email: 'higorgrigorio@gmail.com',
               password: '123456',
-              telephone: '+5518998091195'
+              telephone: '+5518998091195',
+              idAddress: 1
           },
           {
               id: 2,
@@ -20,7 +21,8 @@ module.exports = {
               birthDate: '2002-5-11',
               email: 'erickzikabta@gmail.com',
               password: '123456',
-              telephone: '+5518123456789'
+              telephone: '+5518123456789',
+              idAddress: 1
           },
       ])
 

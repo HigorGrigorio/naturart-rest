@@ -58,26 +58,6 @@ export class ClientController extends AbstractController<Client> {
         }
     }
 
-    async getAddressesByClientId(req: Request, res: Response): Promise<Response> {
-        try {
-            const {idClient} = AttributeExtractor.extract(req.query, {
-                attributes: {
-                    idClient: {
-                        isRequired: true,
-                        notEmpty: true,
-                    }
-                }
-            });
-            return res.json(await this.service.getAddressesByClientId(Utils.normalizeKey(idClient)));
-        } catch (e: any) {
-            return res.status(400).json(
-                new NaturartResponse<boolean>({
-                    msg: e.message ?? 'Inspected Error',
-                    isError: true,
-                }));
-        }
-    }
-
     async login(req: Request, res: Response): Promise<Response> {
         try {
             const {email, password} = AttributeExtractor.extract(req.query, {

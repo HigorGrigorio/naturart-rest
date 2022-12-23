@@ -99,6 +99,11 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
         this.belongsTo(models.DistrictCity, {
             as: 'districtCity',
             foreignKey: 'idDistrictCity'
+        });
+
+        this.hasMany(models.Client, {
+            as: 'clients',
+            foreignKey: 'idAddress'
         })
     }
 }
