@@ -1,19 +1,19 @@
 import {AbstractController} from "../abstract/abstract-controller";
-import {Invoice} from "../models/invoice";
-import {InvoiceService} from "../services/invoice-service";
+import Localization from "../models/localization";
+import {LocalizationService} from "../services/localization-service";
 import {Request, Response} from "express";
-import NaturartResponse from "../utils/naturart-response";
 import {AttributeExtractor} from "../utils/attribute-extractor";
+import NaturartResponse from "../utils/naturart-response";
 import {Utils} from "../utils/utils";
 
-export class InvoiceController extends AbstractController<Invoice> {
-    protected readonly service: InvoiceService;
+export class LocalizationController extends AbstractController<Localization> {
+    protected readonly service: LocalizationService;
 
     /**
      * Construct a new instance of controller.
      * @param service The service.
      */
-    constructor(service: InvoiceService) {
+    constructor(service: LocalizationService) {
         super(service);
         this.service = service;
     }
@@ -22,95 +22,94 @@ export class InvoiceController extends AbstractController<Invoice> {
      * Default factory method.
      */
     static default() {
-        return new InvoiceController(new InvoiceService());
+        return new LocalizationController(new LocalizationService());
     }
 
-    async getByInvoiceNumber(req: Request, res: Response): Promise<any> {
+    async getCurrentLocationByProductId(req: Request, res: Response): Promise<Response> {
         try {
-            const {invoiceNumber} = AttributeExtractor.extract(req.query, {
+            const {idProduct} = AttributeExtractor.extract(req.query, {
                 attributes: {
-                    invoiceNumber: {
+                    idProduct: {
                         isRequired: true,
                         notEmpty: true,
                     }
                 }
             });
-
-            const result = await this.service.getByInvoiceNumber(Utils.normalizeKey(invoiceNumber));
-            return res.json(result);
+            return res.json(await this.service.getCurrentLocationByProductId(Utils.normalizeKey(idProduct)));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({
                     msg: e.message ?? 'Inspected Error',
                     isError: true,
-                })
-            );
+                }));
         }
     }
 
-    async getByClientId(req: Request, res: Response): Promise<any> {
+    async getQttByProductId(req: Request, res: Response): Promise<Response> {
         try {
-            const {idClient} = AttributeExtractor.extract(req.query, {
+            const {idProduct} = AttributeExtractor.extract(req.query, {
                 attributes: {
-                    idClient: {
+                    idProduct: {
                         isRequired: true,
                         notEmpty: true,
                     }
                 }
             });
-            const result = await this.service.getByClientId(Utils.normalizeKey(idClient));
-            return res.json(result);
+            return res.json(await this.service.getQttByProductId(Utils.normalizeKey(idProduct)));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({
                     msg: e.message ?? 'Inspected Error',
                     isError: true,
-                })
-            );
+                }));
         }
     }
 
-    async getQttByClientId(req: Request, res: Response): Promise<any> {
+    async getAllByProductId(req: Request, res: Response): Promise<Response> {
         try {
-            const {idClient} = AttributeExtractor.extract(req.query, {
+            const {idProduct} = AttributeExtractor.extract(req.query, {
                 attributes: {
-                    idClient: {
+                    idProduct: {
                         isRequired: true,
                         notEmpty: true,
                     }
                 }
             });
-            const result = await this.service.getQttByClientId(Utils.normalizeKey(idClient));
-            return res.json(result);
+            return res.json(await this.service.getAllByProductId(Utils.normalizeKey(idProduct)));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({
                     msg: e.message ?? 'Inspected Error',
                     isError: true,
-                })
-            );
+                }));
         }
     }
 
-    async isInvoiceNumberInUse(req: Request, res: Response): Promise<any> {
+    async getAllByProductIdAndInterval(req: Request, res: Response): Promise<Response> {
         try {
-            const {invoiceNumber} = AttributeExtractor.extract(req.query, {
+            const {idProduct, startInterval, endInterval} = AttributeExtractor.extract(req.query, {
                 attributes: {
-                    invoiceNumber: {
+                    idProduct: {
                         isRequired: true,
                         notEmpty: true,
-                    }
+                    },
+                    startInterval: {
+                        isRequired: true,
+                        notEmpty: true,
+                    },
+                    endInterval: {
+                        isRequired: false,
+                        notEmpty: false,
+                    },
                 }
             });
-            const result = await this.service.isInvoiceNumberInUse(Utils.normalizeKey(invoiceNumber));
-            return res.json(result);
+            return res.json(await this.service.getAllByProductIdAndInterval(Utils.normalizeKey(idProduct), startInterval, endInterval));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({
                     msg: e.message ?? 'Inspected Error',
                     isError: true,
-                })
-            );
+                }));
         }
     }
 }

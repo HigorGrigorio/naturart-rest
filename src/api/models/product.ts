@@ -1,33 +1,28 @@
 import {
     CreationOptional,
-    DataTypes, ForeignKey,
+    DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    Model, ModelStatic,
+    Model,
+    ModelStatic,
     Sequelize
 } from "sequelize";
-import {Client} from "./client";
 
-export class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttributes<Invoice>> {
+export class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> {
     /**
      * Identifier in database.
      */
     declare id: CreationOptional<number>;
 
     /**
-     * Number of the invoice.
+     * Name of product.
      */
-    declare invoiceNumber: string;
+    declare name: CreationOptional<string>;
 
     /**
-     * Date the invoice was made
+     * Serial code related to the purchase item
      */
-    declare invoiceDate: Date;
-
-    /**
-     * Value of the invoice.
-     */
-    declare invoiceValue: number;
+    declare serialCode: CreationOptional<string>;
 
     /**
      * Date of creation.
@@ -35,14 +30,14 @@ export class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttrib
     declare createdAt: CreationOptional<Date>;
 
     /**
+     * Identifier of invoice item.
+     */
+    declare idInvoiceItem: CreationOptional<number>;
+
+    /**
      * Date of last update.
      */
     declare updatedAt: CreationOptional<Date>;
-
-    /**
-     * Customer who made the purchase
-     */
-    declare idClient: ForeignKey<Client['id']>;
 
     public static initialize(sequelize: Sequelize): void {
         this.init({
@@ -51,18 +46,17 @@ export class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttrib
                     autoIncrement: true,
                     primaryKey: true
                 },
-                invoiceNumber: {
+                serialCode: {
                     type: DataTypes.STRING,
+                    allowNull: true,
                 },
-                invoiceDate: {
-                    type: DataTypes.DATE,
+                name: {
+                    type: DataTypes.STRING,
+                    allowNull: true,
                 },
-                invoiceValue: {
-                    type: DataTypes.NUMBER,
-                },
-                idClient: {
+                idInvoiceItem: {
                     type: DataTypes.INTEGER.UNSIGNED,
-                    allowNull: true
+                    allowNull: false,
                 },
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
@@ -71,14 +65,14 @@ export class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttrib
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {
-        this.belongsTo(models.Client, {
-            as: 'client',
-            foreignKey: 'idClient'
+        this.belongsToMany(models.SensorType, {
+            through: 'SensorTypeProduct',
+            foreignKey: 'idProduct',
         });
 
-        this.hasMany(models.InvoiceItem, {
-            as: 'items',
-            foreignKey: 'idInvoice'
+        this.hasMany(models.Localization, {
+            as: 'localizations',
+            foreignKey: 'idProduct'
         });
     }
 }

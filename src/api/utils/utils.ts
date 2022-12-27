@@ -26,7 +26,11 @@ export class Utils {
     }
 
     static normalizeKey(key: string | number): number {
-        return typeof key == "number" ? key : parseInt(key, 10);
+        let number = typeof key == "number" ? key : parseInt(key, 10);
+        if (isNaN(number)) {
+            throw new Error('Supports only number!');
+        }
+        return number;
     }
 
     static merge<T extends object = any, U extends object = any>(to: T, from: U): any {

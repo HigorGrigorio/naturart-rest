@@ -1,22 +1,30 @@
 import {
     CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
     Model, ModelStatic,
     Sequelize
 } from "sequelize";
+import {SensorType} from "./sensor-type";
+import {Product} from "./product";
 
-export class SensorType extends Model<InferAttributes<SensorType>, InferCreationAttributes<SensorType>> {
+export class SensorTypeProduct extends Model<InferAttributes<SensorTypeProduct>, InferCreationAttributes<SensorTypeProduct>> {
     /**
-     * Identifier of state.
+     * Identifier in database.
      */
     declare id: CreationOptional<number>;
 
     /**
-     * Name of state.
+     * Identifier to sensor type relation.
      */
-    declare name: string;
+    declare idSensorType: ForeignKey<SensorType['id']>;
+
+    /**
+     * Identifier to product of purchase relation.
+     */
+    declare idProduct: ForeignKey<Product['id']>;
 
     /**
      * Date of creation.
@@ -28,11 +36,6 @@ export class SensorType extends Model<InferAttributes<SensorType>, InferCreation
      */
     declare updatedAt: CreationOptional<Date>;
 
-    /**
-     * Initialize a model into connection.
-     *
-     * @param sequelize Sequelize instance.
-     */
     public static initialize(sequelize: Sequelize): void {
         this.init({
                 id: {
@@ -40,10 +43,13 @@ export class SensorType extends Model<InferAttributes<SensorType>, InferCreation
                     autoIncrement: true,
                     primaryKey: true
                 },
-                name: {
-                    type: new DataTypes.STRING(255),
+                idProduct: {
+                    type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
-                    unique: true,
+                },
+                idSensorType: {
+                    type: DataTypes.INTEGER.UNSIGNED,
+                    allowNull: false,
                 },
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
@@ -51,15 +57,10 @@ export class SensorType extends Model<InferAttributes<SensorType>, InferCreation
             {sequelize: sequelize});
     }
 
-    /**
-     * Create a database association to models instance.
-     *
-     * @param models Models of Sequelize instance.
-     */
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {
-        this.belongsToMany(models.Product, {
-            through: 'SensorTypeProduct',
-            foreignKey: 'idSensorType'
+        this.hasMany(models.Measurement, {
+            as: 'measures',
+            foreignKey: 'idSensorTypeProduct'
         });
     }
 }

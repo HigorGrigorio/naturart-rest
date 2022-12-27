@@ -16,6 +16,11 @@ import {AddressController} from "../controllers/address-controller";
 import {SensorTypeController} from "../controllers/sensor-type-controller";
 import ClientController from "../controllers/client-controller";
 import {InvoiceController} from "../controllers/invoice-controller";
+import {ProductController} from "../controllers/product-controller";
+import {SensorTypeProductController} from "../controllers/sensor-type-product-controller";
+import {LocalizationController} from "../controllers/localization-controller";
+import {InvoiceItemController} from "../controllers/invoice-item-controller";
+import {MeasurementController} from "../controllers/measurement-controller";
 
 export class App {
     private static _instance?: App | null = null;
@@ -33,7 +38,8 @@ export class App {
         this.core = express();
         this.dispatcher = new Dispatcher();
 
-        this.dispatcher.register('district', DistrictController.default())
+        this.dispatcher
+            .register('district', DistrictController.default())
             .register('city', CityController.default())
             .register('state', StateController.default())
             .register('districtCity', DistrictCityController.default())
@@ -45,6 +51,11 @@ export class App {
             .register('sensorType', SensorTypeController.default())
             .register('client', ClientController.default())
             .register('invoice', InvoiceController.default())
+            .register('product', ProductController.default())
+            .register('sensorTypeProduct', SensorTypeProductController.default())
+            .register('localization', LocalizationController.default())
+            .register('invoiceItem', InvoiceItemController.default())
+            .register('measurement', MeasurementController.default())
 
         this.core
             .use(express.urlencoded({extended: true}))

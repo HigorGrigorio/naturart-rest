@@ -12,6 +12,11 @@ import {Address} from "../models/address";
 import {SensorType} from "../models/sensor-type";
 import {Client} from "../models/client";
 import {Invoice} from "../models/invoice";
+import {Product} from "../models/product";
+import {SensorTypeProduct} from "../models/sensor-type-product";
+import {InvoiceItem} from "../models/invoice-item";
+import Localization from "../models/localization";
+import {Measurement} from "../models/measurement";
 
 const models: any = [
     District,
@@ -25,16 +30,20 @@ const models: any = [
     Address,
     SensorType,
     Client,
-    Invoice
+    Invoice,
+    Product,
+    SensorTypeProduct,
+    InvoiceItem,
+    Localization,
+    Measurement
 ];
 
 const connection = new Sequelize(config);
 
 Object.keys(models).forEach((key => {
     models[Number(key)].initialize(connection);
-}))
+}));
 
-//
 Object.keys(models).forEach(key => {
     if ('associate' in models[Number(key)]) {
         models[Number(key)].associate(connection.models);

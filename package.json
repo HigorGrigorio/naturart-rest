@@ -10,6 +10,7 @@
     "windowsDebug": "@powershell -Command $env:DEBUG='*' & @powershell -Command $env:DEBUG_COLORS=1; sucrase-node ./dist/index.js"
   },
   "dependencies": {
+    "@types/sequelize": "^4.28.14",
     "cookie-parser": "~1.4.4",
     "cross-fetch": "^3.1.5",
     "debug": "~2.6.9",
