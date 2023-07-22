@@ -33,6 +33,90 @@ class StateController extends abstract_controller_1.AbstractController {
         this.service = service;
     }
     /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    getByName(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.getByName(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
+    }
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    getQttByName(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.getQttByName(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
+    }
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    isNameInUse(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.isNameInUse(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
+    }
+    /**
      * Default factory method.
      */
     static default() {

@@ -16,7 +16,7 @@ class Street extends sequelize_1.Model {
             },
             name: {
                 type: new sequelize_1.DataTypes.STRING(128),
-                allowNull: false.valueOf(),
+                allowNull: false,
                 unique: true
             },
             createdAt: sequelize_1.DataTypes.DATE,

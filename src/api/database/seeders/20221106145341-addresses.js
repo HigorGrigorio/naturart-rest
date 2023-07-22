@@ -9,6 +9,7 @@ module.exports = {
         idDistrictCity: 1,
         idStreetCity: 17,
         idZipCode: 1,
+        number: 100,
     }])
   },
 

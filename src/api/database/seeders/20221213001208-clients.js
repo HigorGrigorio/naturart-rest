@@ -10,31 +10,11 @@ module.exports = {
               cpf: '48494370871',
               birthDate: '2001-12-23',
               email: 'higorgrigorio@gmail.com',
-              password: '123456',
+              password: '$2b$10$oZxlCAOJJiU9MywF5qqyYO6byTT8yGQ0XtxQhHVVIWDP0rGIVmJU.', // 123456
               telephone: '+5518998091195',
               idAddress: 1
           },
-          {
-              id: 2,
-              name: 'Erick de Sousa Almeida',
-              cpf: '12345678901',
-              birthDate: '2002-5-11',
-              email: 'erickzikabta@gmail.com',
-              password: '123456',
-              telephone: '+5518123456789',
-              idAddress: 1
-          },
       ])
-
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
   },
 
   async down (queryInterface, Sequelize) {

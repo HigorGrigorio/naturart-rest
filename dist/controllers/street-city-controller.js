@@ -62,12 +62,6 @@ class StreetCityController extends abstract_controller_1.AbstractController {
                     }
                 });
                 const response = yield this.service.getByNameAndCityId(name, utils_1.Utils.normalizeKey(idCity));
-                if (response.isError) {
-                    response.msg = 'Undefined street';
-                }
-                else {
-                    response.msg = 'Search performs successfully';
-                }
                 return res.json(response);
             }
             catch (e) {
@@ -84,7 +78,7 @@ class StreetCityController extends abstract_controller_1.AbstractController {
      * @param req The request.
      * @param res The response.
      */
-    getQttByDistrictsInCity(req, res) {
+    getQttDistrictsInCity(req, res) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -100,9 +94,8 @@ class StreetCityController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                const response = yield this.service.getQttByDistrictsInCity(name, city);
-                response.msg = 'Search performs successfully';
-                return res.json(response);
+                const response = yield this.service.getQttDistrictsInCity(name, city);
+                return res.json({ response });
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
@@ -135,7 +128,6 @@ class StreetCityController extends abstract_controller_1.AbstractController {
                     }
                 });
                 const response = yield this.service.isNameInUse(name, utils_1.Utils.normalizeKey(idCity));
-                response.msg = 'Search performs successfully';
                 return res.json(response);
             }
             catch (e) {

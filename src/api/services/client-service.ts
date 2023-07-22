@@ -1,11 +1,14 @@
 import {AbstractService} from "../abstract/abstract-service";
 import {Client} from "../models/client";
-import {City} from "../models/city";
 import NaturartResponse from "../utils/naturart-response";
 import CPFValidator from "./validators/cpf-validator";
 import {EmailValidator} from "./validators/email-validator";
-import {Address} from "../models/address";
 import {CreationAttributes} from "sequelize/types/model";
+import {Product} from "../models/product";
+import {literal, Op} from "sequelize";
+import {SensorType} from "../models/sensor-type";
+import {Invoice} from "../models/invoice";
+import {InvoiceItem} from "../models/invoice-item";
 
 export class ClientService extends AbstractService<Client> {
     /**
@@ -25,7 +28,7 @@ export class ClientService extends AbstractService<Client> {
         // validate cpf.
         const {cpf} = attributes;
 
-        if(!CPFValidator.isValid(cpf)) {
+        if (!CPFValidator.isValid(cpf)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid CPF'
@@ -35,12 +38,16 @@ export class ClientService extends AbstractService<Client> {
         // validate email.
         const {email} = attributes;
 
-        if(!EmailValidator.isValid(email)){
+        if (!EmailValidator.isValid(email)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid email'
             });
         }
+
+        // hash password.
+        const {password} = attributes;
+        attributes.password = Client.hashPassword(password);
 
         const result = await this.model.create({...attributes});
 
@@ -49,9 +56,39 @@ export class ClientService extends AbstractService<Client> {
         });
     }
 
+    async getProductsByEmail(email: string): Promise<NaturartResponse<Product[]>> {
+        const result = await Product.findAll({
+            where: {
+                serialCode: {
+                    [Op.in]: literal(`(
+                    SELECT invoiceitem.serialCode 
+                    FROM invoiceitem 
+                    INNER JOIN invoice ON invoice.id = idInvoice
+                    INNER JOIN client ON client.id = invoice.idClient AND client.email = '${email}' 
+                )`)
+                }
+            },
+            include: [{
+                model: SensorType,
+                as: 'types',
+                through: {
+                    attributes: ['id'],
+                    as: 'sensorTypeItem'
+                },
+            }]
+        })
+
+        return new NaturartResponse<Product[]>({
+            msg: 'Search performs successful',
+            data: result
+        })
+    }
+
     async getAll(): Promise<NaturartResponse<Client[]>> {
         const result = await Client.findAll({
-            include: ['address']
+            attributes: {
+                exclude: ['password']
+            }
         })
 
         return new NaturartResponse<Client[]>({
@@ -83,7 +120,7 @@ export class ClientService extends AbstractService<Client> {
     }
 
     async isCpfInUse(cpf: string): Promise<NaturartResponse<boolean>> {
-        const result = await Client.count({where:{cpf}});
+        const result = await Client.count({where: {cpf}});
 
         return new NaturartResponse<boolean>({
             data: result > 0,
@@ -92,7 +129,7 @@ export class ClientService extends AbstractService<Client> {
     }
 
     async isEmailInUse(email: string): Promise<NaturartResponse<boolean>> {
-        const result = await Client.count({where:{email}});
+        const result = await Client.count({where: {email}});
 
         return new NaturartResponse<boolean>({
             data: result > 0,
@@ -108,7 +145,9 @@ export class ClientService extends AbstractService<Client> {
             })
         }
 
-        const result = await Client.findOne({where: {email}});
+        const result = await Client.findOne({where: {email}, attributes: {
+            exclude: ['password']
+            }});
 
         if (!result) {
             return new NaturartResponse<Client>({
@@ -123,22 +162,16 @@ export class ClientService extends AbstractService<Client> {
         });
     }
 
-    async getInvoicesByClientId(id: number) {
-        // TODO
-    }
-
     async login(email: string, pass: string): Promise<NaturartResponse<Client>> {
         // check for email into database.
         const result = await this.getByEmail(email);
 
-        if (result.isError) {
+        if (result.isError || !result.data) {
             return result;
         }
 
         // check password.
-        const {password} = result.data || {pass: ''};
-
-        if (password !== pass) {
+        if (!result.data.comparePassword(pass)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid Login Credentials'
@@ -151,30 +184,19 @@ export class ClientService extends AbstractService<Client> {
         return result;
     }
 
-    async rememberPassword(cpf: string, email: string, password: string): Promise<NaturartResponse<void>> {
-        const client = await Client.findOne({
-            where: {email, cpf}
-        });
+    async updatePassword(email: string, currentPassword: string, newPassword: string, confirmNewPassword: string): Promise<NaturartResponse<void>> {
+        const response = await this.getByEmail(email);
 
-        if (!client) {
+        if (response.isError || !response.data) {
             return new NaturartResponse<void>({
                 isError: true,
                 msg: 'Invalid Credentials'
-            })
+            });
         }
 
-        await client.update({password});
-        return new NaturartResponse<void>({
-            msg: 'Password successfully updated'
-        });
-    }
+        const client = response.data;
 
-    async updatePassword(email: string, currentPassword: string, newPassword: string, confirmNewPassword: string): Promise<NaturartResponse<void>> {
-        const client = await Client.findOne({
-            where: {email, password: currentPassword}
-        });
-
-        if (!client) {
+        if (!client.comparePassword(currentPassword)) {
             return new NaturartResponse<void>({
                 isError: true,
                 msg: 'Invalid Credentials'
@@ -188,7 +210,10 @@ export class ClientService extends AbstractService<Client> {
             });
         }
 
-        await client.update({password: newPassword});
+        const hashedPassword = Client.hashPassword(newPassword);
+
+        await client.update({password: hashedPassword});
+        await client.save();
 
         return new NaturartResponse<void>({
             msg: 'Password successfully updated'

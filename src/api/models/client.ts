@@ -8,6 +8,7 @@ import {
     Sequelize
 } from "sequelize";
 import {Address} from "./address";
+import bcrypt from 'bcrypt';
 
 export class Client extends Model<InferAttributes<Client>, InferCreationAttributes<Client>> {
     /**
@@ -105,6 +106,19 @@ export class Client extends Model<InferAttributes<Client>, InferCreationAttribut
                 updatedAt: DataTypes.DATE,
             },
             {sequelize: sequelize});
+    }
+
+    public static hashPassword(password: string): string {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    }
+
+    comparePassword(password: string): boolean {
+        const hash = this.getDataValue('password');
+
+        if(!password || !hash) return false;
+        if (password === hash) return true;
+
+        return bcrypt.compareSync(password, hash);
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

@@ -17,6 +17,7 @@ const district_city_service_1 = require("../services/district-city-service");
 const abstract_controller_1 = require("../abstract/abstract-controller");
 const attribute_extractor_1 = require("../utils/attribute-extractor");
 const naturart_response_1 = __importDefault(require("../utils/naturart-response"));
+const utils_1 = require("../utils/utils");
 class DistrictCityController extends abstract_controller_1.AbstractController {
     /**
      * Construct a new instance of controller.
@@ -60,7 +61,7 @@ class DistrictCityController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                return res.json(yield this.service.getByNameAndCityId(name, idCity));
+                return res.json(yield this.service.getByNameAndCityId(name, utils_1.Utils.normalizeKey(idCity)));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
@@ -93,6 +94,34 @@ class DistrictCityController extends abstract_controller_1.AbstractController {
                     }
                 });
                 return res.json(yield this.service.getQttDistrictsByNameInCity(name, city));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
+    }
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    getDistrictsByCityId(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { idCity } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        idCity: {
+                            isRequired: true,
+                            notEmpty: true
+                        },
+                    }
+                });
+                return res.json(yield this.service.getDistrictsByCityId(utils_1.Utils.normalizeKey(idCity)));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({

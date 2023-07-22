@@ -4,7 +4,6 @@ import ClientService from "../services/client-service";
 import {Request, Response} from "express";
 import {AttributeExtractor} from "../utils/attribute-extractor";
 import NaturartResponse from "../utils/naturart-response";
-import {Utils} from "../utils/utils";
 
 export class ClientController extends AbstractController<Client> {
     protected readonly service: ClientService;
@@ -58,6 +57,26 @@ export class ClientController extends AbstractController<Client> {
         }
     }
 
+    async getProductsByEmail(req: Request, res: Response): Promise<Response> {
+        try {
+            const {email} = AttributeExtractor.extract(req.query, {
+                attributes: {
+                    email: {
+                        isRequired: true,
+                        notEmpty: true,
+                    }
+                }
+            });
+            return res.json(await this.service.getProductsByEmail(email));
+        } catch (e: any) {
+            return res.status(400).json(
+                new NaturartResponse<boolean>({
+                    msg: e.message ?? 'Inspected Error',
+                    isError: true,
+                }));
+        }
+    }
+
     async login(req: Request, res: Response): Promise<Response> {
         try {
             const {email, password} = AttributeExtractor.extract(req.query, {
@@ -73,34 +92,6 @@ export class ClientController extends AbstractController<Client> {
                 }
             });
             return res.json(await this.service.login(email, password));
-        } catch (e: any) {
-            return res.status(400).json(
-                new NaturartResponse<boolean>({
-                    msg: e.message ?? 'Inspected Error',
-                    isError: true,
-                }));
-        }
-    }
-
-    async rememberPassword(req: Request, res: Response): Promise<Response> {
-        try {
-            const {email, password, cpf} = AttributeExtractor.extract(req.query, {
-                attributes: {
-                    email: {
-                        isRequired: true,
-                        notEmpty: true,
-                    },
-                    password: {
-                        isRequired: true,
-                        notEmpty: true
-                    },
-                    cpf: {
-                        isRequired: true,
-                        notEmpty: true
-                    }
-                }
-            });
-            return res.json(await this.service.rememberPassword(cpf, email, password));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({
@@ -201,8 +192,6 @@ export class ClientController extends AbstractController<Client> {
                 }));
         }
     }
-
-
 }
 
 export default ClientController;

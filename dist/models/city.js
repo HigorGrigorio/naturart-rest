@@ -15,7 +15,7 @@ class City extends sequelize_1.Model {
                 primaryKey: true
             },
             name: {
-                type: new sequelize_1.DataTypes.STRING(255),
+                type: sequelize_1.DataTypes.STRING(255),
                 allowNull: false,
                 unique: true
             },
@@ -40,6 +40,10 @@ class City extends sequelize_1.Model {
         });
         this.hasMany(models.StreetCity, {
             as: 'streetsInfo',
+            foreignKey: 'idCity'
+        });
+        this.hasMany(models.ZipCode, {
+            as: 'zipCode',
             foreignKey: 'idCity'
         });
     }

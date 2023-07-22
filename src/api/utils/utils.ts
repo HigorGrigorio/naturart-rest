@@ -1,5 +1,6 @@
 import {fn as fns, Includeable, literal as literals, Model, ModelStatic, Sequelize, where as wheres} from "sequelize";
 import {Fn, Where} from "sequelize/types/utils";
+import bcrypt from "bcrypt";
 
 export class Utils {
     static fn(value: string): Fn {

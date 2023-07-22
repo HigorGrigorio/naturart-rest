@@ -19,6 +19,7 @@ const utils_1 = require("../utils/utils");
 const district_1 = require("../models/district");
 const abstract_service_1 = require("../abstract/abstract-service");
 const naturart_response_1 = __importDefault(require("../utils/naturart-response"));
+const state_1 = require("../models/state");
 class CityService extends abstract_service_1.AbstractService {
     /**
      * Construct a new instance of entity.
@@ -36,7 +37,17 @@ class CityService extends abstract_service_1.AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield city_1.City.findAll({
                 where: utils_1.Utils.where('`City`.`name`', name),
-                include: Object.values(city_1.City.associations),
+                include: [
+                    {
+                        model: district_1.District,
+                        as: 'districts',
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: state_1.State,
+                        as: 'state'
+                    }
+                ]
             });
             return new naturart_response_1.default({
                 data: result,
@@ -104,7 +115,17 @@ class CityService extends abstract_service_1.AbstractService {
                     ]
                 },
                 order: (0, sequelize_1.col)('name'),
-                include: Object.values(city_1.City.associations),
+                include: [
+                    {
+                        model: district_1.District,
+                        as: 'districts',
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: state_1.State,
+                        as: 'state'
+                    },
+                ]
             });
             if (result.length == 0) {
                 return new naturart_response_1.default({
@@ -203,6 +224,39 @@ class CityService extends abstract_service_1.AbstractService {
             return new naturart_response_1.default({
                 data: result,
                 msg: 'Search performs successfully'
+            });
+        });
+    }
+    /**
+     * Finds a city with base in the id.
+     *
+     * @param id : number Id to find.
+     * @returns {Promise<City>} A model with base in the id.
+     */
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.model.findByPk(id, {
+                include: [
+                    {
+                        model: district_1.District,
+                        as: 'districts',
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: state_1.State,
+                        as: 'state'
+                    },
+                ]
+            });
+            if (!result) {
+                return new naturart_response_1.default({
+                    isError: true,
+                    msg: 'Undefined entity with id ' + id
+                });
+            }
+            return new naturart_response_1.default({
+                data: result,
+                msg: ''
             });
         });
     }

@@ -36,6 +36,14 @@ class StreetCity extends sequelize_1.Model {
             as: 'city',
             foreignKey: 'idCity'
         });
+        this.hasMany(models.ZipCode, {
+            as: 'cep',
+            foreignKey: 'idStreetCity'
+        });
+        this.hasMany(models.Address, {
+            as: 'address',
+            foreignKey: 'idStreetCity'
+        });
     }
 }
 exports.StreetCity = StreetCity;

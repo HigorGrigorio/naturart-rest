@@ -28,7 +28,6 @@ class DistrictService extends abstract_service_1.AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield district_1.District.findAll({
                 where: utils_1.Utils.where('`District`.`name`', name),
-                include: Object.values(district_1.District.associations),
             });
             return new naturart_response_1.NaturartResponse({
                 msg: 'Search performs successfully',

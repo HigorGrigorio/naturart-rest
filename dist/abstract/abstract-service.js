@@ -45,7 +45,8 @@ class AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.model.create(Object.assign({}, attributes));
             return new naturart_response_1.default({
-                data: result
+                data: result,
+                msg: "Persist performs successfully",
             });
         });
     }
@@ -58,10 +59,11 @@ class AbstractService {
     deleteById(where) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.model.destroy({
-                where
+                where,
             });
             return new naturart_response_1.default({
-                data: result
+                data: result,
+                msg: "Deleted performs successfully",
             });
         });
     }
@@ -74,7 +76,8 @@ class AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.model.findAll();
             return new naturart_response_1.default({
-                data: result
+                data: result,
+                msg: "Search performs successfully",
             });
         });
     }
@@ -90,12 +93,12 @@ class AbstractService {
             if (!result) {
                 return new naturart_response_1.default({
                     isError: true,
-                    msg: 'Undefined entity with id ' + id
+                    msg: "Undefined entity with id " + id,
                 });
             }
             return new naturart_response_1.default({
                 data: result,
-                msg: ''
+                msg: "Search performs successfully",
             });
         });
     }
@@ -108,11 +111,14 @@ class AbstractService {
      */
     update(where, attributes) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.model.update(attributes, {
-                where
-            }).then(result => result[0]);
+            const result = yield this.model
+                .update(attributes, {
+                where,
+            })
+                .then((result) => result[0]);
             return new naturart_response_1.default({
-                data: result
+                data: result,
+                msg: "Search performs successfully",
             });
         });
     }

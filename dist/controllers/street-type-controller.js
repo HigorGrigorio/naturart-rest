@@ -24,13 +24,13 @@ class StreetTypeController extends abstract_controller_1.AbstractController {
      */
     constructor(service) {
         super(service);
-        Object.defineProperty(this, "_stateService", {
+        Object.defineProperty(this, "service", {
             enumerable: true,
             configurable: true,
             writable: true,
             value: void 0
         });
-        this._stateService = service;
+        this.service = service;
     }
     /**
      * Default factory method.
@@ -38,15 +38,89 @@ class StreetTypeController extends abstract_controller_1.AbstractController {
     static default() {
         return new StreetTypeController(new street_type_service_1.StreetTypeService());
     }
-    get stateService() {
-        return this._stateService;
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    getByName(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.getByName(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
     }
-    extractQuery(req) {
-        const { initials } = req.query;
-        if (!initials || typeof initials != "string") {
-            throw new Error("expected the attribute 'initials' into query");
-        }
-        return { initials };
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    getQttByName(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.getQttByName(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
+    }
+    /**
+     * Redirect to service.
+     *
+     * @param req The request.
+     * @param res The response.
+     */
+    isNameInUse(req, res) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name } = attribute_extractor_1.AttributeExtractor.extract(req.query, {
+                    attributes: {
+                        name: {
+                            isRequired: true,
+                            notEmpty: true,
+                        }
+                    }
+                });
+                return res.json(yield this.service.isNameInUse(name));
+            }
+            catch (e) {
+                return res.status(400).json(new naturart_response_1.default({
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    isError: true,
+                }));
+            }
+        });
     }
     /**
      * Redirect to service.
@@ -66,7 +140,7 @@ class StreetTypeController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                return res.json(yield this.stateService.getByInitials(initials));
+                return res.json(yield this.service.getByInitials(initials));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
@@ -94,7 +168,7 @@ class StreetTypeController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                return res.json(yield this.stateService.getQttByInitials(initials));
+                return res.json(yield this.service.getQttByInitials(initials));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
@@ -122,7 +196,7 @@ class StreetTypeController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                return res.json(yield this.stateService.isInitialsInUse(initials));
+                return res.json(yield this.service.isInitialsInUse(initials));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({

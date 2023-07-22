@@ -67,6 +67,7 @@ export class Product extends Model<InferAttributes<Product>, InferCreationAttrib
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {
         this.belongsToMany(models.SensorType, {
             through: 'SensorTypeProduct',
+            as: 'types',
             foreignKey: 'idProduct',
         });
 

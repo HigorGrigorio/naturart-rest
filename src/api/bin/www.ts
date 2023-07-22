@@ -63,7 +63,6 @@ const onListening = () => {
 
   NaturArt API has been started. Press Ctrl+C to shutdown.
   Access NaturArt API by this URL => http://localhost:${bind}/
-
   `);
 }
 
