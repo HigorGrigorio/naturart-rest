@@ -18,6 +18,21 @@ class DistrictCity extends sequelize_1.Model {
             updatedAt: sequelize_1.DataTypes.DATE,
         }, { sequelize: sequelize });
     }
+    /**
+     * Create a database association to models instance.
+     *
+     * @param models Models of Sequelize instance.
+     */
+    static associate(models) {
+        this.hasMany(models.ZipCode, {
+            as: 'districtCities',
+            foreignKey: 'idDistrictCity'
+        });
+        this.hasMany(models.Address, {
+            as: 'address',
+            foreignKey: 'idDistrictCity'
+        });
+    }
 }
 exports.DistrictCity = DistrictCity;
 //# sourceMappingURL=district-city.js.map

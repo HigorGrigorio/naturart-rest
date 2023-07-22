@@ -17,9 +17,74 @@ const street_city_1 = require("../models/street-city");
 const abstract_service_1 = require("../abstract/abstract-service");
 const sequelize_1 = require("sequelize");
 const naturart_response_1 = __importDefault(require("../utils/naturart-response"));
+const city_1 = require("../models/city");
+const street_type_1 = require("../models/street-type");
+const street_1 = require("../models/street");
 class StreetCityService extends abstract_service_1.AbstractService {
     constructor() {
         super(street_city_1.StreetCity);
+    }
+    /**
+     * Gets all streets in cities
+     */
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield street_city_1.StreetCity.findAll({
+                attributes: ['id', 'updatedAt', 'createdAt'],
+                include: [
+                    {
+                        model: city_1.City,
+                        as: 'city',
+                    },
+                    {
+                        model: street_type_1.StreetType,
+                        as: 'streetType',
+                    },
+                    {
+                        model: street_1.Street,
+                        as: 'street'
+                    }
+                ]
+            });
+            return new naturart_response_1.default({
+                data: result,
+                msg: 'Search performs successfully'
+            });
+        });
+    }
+    /**
+     *
+     */
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield street_city_1.StreetCity.findByPk(id, {
+                attributes: ['id', 'updatedAt', 'createdAt'],
+                include: [
+                    {
+                        model: city_1.City,
+                        as: 'city',
+                    },
+                    {
+                        model: street_type_1.StreetType,
+                        as: 'streetType',
+                    },
+                    {
+                        model: street_1.Street,
+                        as: 'street'
+                    }
+                ]
+            });
+            if (!result) {
+                return new naturart_response_1.default({
+                    isError: true,
+                    msg: `Undefined street city with id '${id}'`
+                });
+            }
+            return new naturart_response_1.default({
+                data: result,
+                msg: 'Search performs successfully'
+            });
+        });
     }
     /**
      * Gets a street with base in the name and the city id.
@@ -35,11 +100,25 @@ class StreetCityService extends abstract_service_1.AbstractService {
                     idStreet: (0, sequelize_1.literal)(`(
                     SELECT \`Street\`.\`id\`
                     FROM \`Street\` AS \`Street\`
-                    WHERE upper(remove_accents(\`Street\`.\`name\`) = upper(remove_accents(\`${name}\`)
+                    WHERE upper(remove_accents(\`Street\`.\`name\`)) = upper(remove_accents(\'${name}\'))
                     LIMIT 1
                 )`),
                 },
-                include: Object.values(this.model.associations)
+                attributes: ['id', 'updatedAt', 'createdAt'],
+                include: [
+                    {
+                        model: city_1.City,
+                        as: 'city',
+                    },
+                    {
+                        model: street_type_1.StreetType,
+                        as: 'streetType',
+                    },
+                    {
+                        model: street_1.Street,
+                        as: 'street'
+                    }
+                ]
             });
             if (!result) {
                 return new naturart_response_1.default({
@@ -59,22 +138,26 @@ class StreetCityService extends abstract_service_1.AbstractService {
      @param name Name of the street.
      @param city Name of the city.
      */
-    getQttByDistrictsInCity(name, city) {
+    getQttDistrictsInCity(name, city) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield street_city_1.StreetCity.count({
                 where: {
-                    idCity: (0, sequelize_1.literal)(`(
-                    SELECT \`City\`.\`id\`
-                    FROM \`City\` AS \`City\`
-                    WHERE upper(remove_accents(\`City\`.\`name\`) = upper(remove_accents(\`${city}\`)
-                    LIMIT 1
-                )`),
-                    idStreet: (0, sequelize_1.literal)(`(
-                    SELECT \`Street\`.\`id\`
-                    FROM \`Street\` AS \`Street\`
-                    WHERE upper(remove_accents(\`Street\`.\`name\`) = upper(remove_accents(\`${name}\`)
-                    LIMIT 1
-                )`),
+                    idCity: {
+                        [sequelize_1.Op.eq]: (0, sequelize_1.literal)(`(
+                            SELECT \`City\`.\`id\`
+                            FROM \`City\` AS \`City\`
+                            WHERE upper(remove_accents(\`City\`.\`name\`)) = upper(remove_accents('${city}'))
+                            LIMIT 1
+                        )`)
+                    },
+                    idStreet: {
+                        [sequelize_1.Op.eq]: (0, sequelize_1.literal)(`(
+                            SELECT \`Street\`.\`id\`
+                            FROM \`Street\` AS \`Street\`
+                            WHERE upper(remove_accents(\`Street\`.\`name\`)) = upper(remove_accents('${name}'))
+                            LIMIT 1
+                        )`),
+                    }
                 }
             });
             return new naturart_response_1.default({
@@ -97,7 +180,7 @@ class StreetCityService extends abstract_service_1.AbstractService {
                     idStreet: (0, sequelize_1.literal)(`(
                     SELECT \`Street\`.\`id\`
                     FROM \`Street\` AS \`Street\`
-                    WHERE upper(remove_accents(\`Street\`.\`name\`) = upper(remove_accents(\`${name}\`)
+                    WHERE upper(remove_accents(\`Street\`.\`name\`)) = upper(remove_accents(\'${name}\'))
                     LIMIT 1
                 )`),
                 }

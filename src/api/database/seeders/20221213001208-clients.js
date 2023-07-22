@@ -14,16 +14,6 @@ module.exports = {
               telephone: '+5518998091195',
               idAddress: 1
           },
-          {
-              id: 2,
-              name: 'Erick de Sousa Almeida',
-              cpf: '12345678901',
-              birthDate: '2002-5-11',
-              email: 'erickzikabta@gmail.com',
-              password: '123456',
-              telephone: '+5518123456789',
-              idAddress: 1
-          },
       ])
 
     /**

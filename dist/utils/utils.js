@@ -13,7 +13,11 @@ class Utils {
         return (0, sequelize_1.where)(this.fnLiteral(key), this.fn(value));
     }
     static normalizeKey(key) {
-        return typeof key == "number" ? key : parseInt(key, 10);
+        let number = typeof key == "number" ? key : parseInt(key, 10);
+        if (isNaN(number)) {
+            throw new Error('Supports only number!');
+        }
+        return number;
     }
     static merge(to, from) {
         Object.keys(to).forEach(key => {

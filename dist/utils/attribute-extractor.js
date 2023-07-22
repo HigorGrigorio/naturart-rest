@@ -18,33 +18,48 @@ class AttributeExtractor {
         return false;
     }
     static extract(obj, options) {
-        if (!options || (!options['all'] && !options['attributes'])) {
+        if (!options || (!options['all'] && !options['attributes'] && typeof options['attributes'] != 'object')) {
             throw new Error('Undefined options to extract');
         }
         const extraction = {};
-        Object.keys(obj).forEach(key => {
-            if (options['attributes'] && key in options['attributes']) {
-                const attr = options['attributes'][key];
-                if (attr && attr['isRequired']) {
-                    if (!(key in obj)) {
+        if ('all' in options) {
+            for (let key in obj) {
+                if (options['attributes'] && (key in options['attributes'])) {
+                    const attr = options['attributes'][key];
+                    if (!attr) {
+                        continue;
+                    }
+                    if (attr.isRequired && !(key in obj)) {
                         throw new Error(`The attribute ${key} is required.`);
                     }
-                    if (attr['notEmpty'] && obj[key] === '') {
+                    if (attr.notEmpty && obj[key] === '') {
                         throw new Error(`The attribute ${key} cannot has been empty.`);
                     }
-                    Object.defineProperty(extraction, key, {
-                        value: obj[key],
-                        enumerable: true,
-                    });
                 }
-            }
-            else if ('all' in options && options['all']) {
                 Object.defineProperty(extraction, key, {
                     value: obj[key],
                     enumerable: true,
                 });
             }
-        });
+        }
+        else if ('attributes' in options) {
+            for (let key in options['attributes']) {
+                const attr = options['attributes'][key];
+                if (!attr) {
+                    continue;
+                }
+                if (attr.isRequired && !(key in obj)) {
+                    throw new Error(`The attribute ${key} is required.`);
+                }
+                if (attr.notEmpty && obj[key] === '') {
+                    throw new Error(`The attribute ${key} cannot has been empty.`);
+                }
+                Object.defineProperty(extraction, key, {
+                    value: obj[key],
+                    enumerable: true,
+                });
+            }
+        }
         return extraction;
     }
 }

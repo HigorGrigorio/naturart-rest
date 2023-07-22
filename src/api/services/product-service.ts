@@ -68,7 +68,17 @@ export class ProductService extends AbstractService<Product> {
 
     async getBySerialCode(serialCode: string): Promise<NaturartResponse<Product>> {
         const product = await Product.findOne({
-            where: {serialCode}
+            where: {serialCode},
+            include: [{
+                model: SensorType,
+                attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+                through: {
+                    attributes: ['id'],
+                    as: 'sensorTypeItem'
+                },
+                as: 'types'
+            }],
+
         });
 
         if (!product) {
@@ -127,7 +137,8 @@ export class ProductService extends AbstractService<Product> {
 
     async getByName(name: string): Promise<NaturartResponse<Product>> {
         const product = await Product.findOne({
-            where: {name}
+            where: {name},
+            include: [SensorType]
         });
 
         if (!product) {

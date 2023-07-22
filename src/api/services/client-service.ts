@@ -6,6 +6,9 @@ import CPFValidator from "./validators/cpf-validator";
 import {EmailValidator} from "./validators/email-validator";
 import {Address} from "../models/address";
 import {CreationAttributes} from "sequelize/types/model";
+import {Product} from "../models/product";
+import {literal, Op} from "sequelize";
+import {SensorType} from "../models/sensor-type";
 
 export class ClientService extends AbstractService<Client> {
     /**
@@ -25,7 +28,7 @@ export class ClientService extends AbstractService<Client> {
         // validate cpf.
         const {cpf} = attributes;
 
-        if(!CPFValidator.isValid(cpf)) {
+        if (!CPFValidator.isValid(cpf)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid CPF'
@@ -35,7 +38,7 @@ export class ClientService extends AbstractService<Client> {
         // validate email.
         const {email} = attributes;
 
-        if(!EmailValidator.isValid(email)){
+        if (!EmailValidator.isValid(email)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid email'
@@ -47,6 +50,34 @@ export class ClientService extends AbstractService<Client> {
         return new NaturartResponse<Client>({
             data: result
         });
+    }
+
+    async getProductsByEmail(email: string): Promise<NaturartResponse<Product[]>> {
+        const result = await Product.findAll({
+            where: {
+                serialCode: {
+                    [Op.in]: literal(`(
+                    SELECT invoiceitem.serialCode 
+                    FROM invoiceitem 
+                    INNER JOIN invoice ON invoice.id = idInvoice
+                    INNER JOIN client ON client.id = invoice.idClient AND client.email = '${email}' 
+                )`)
+                }
+            },
+            include: [{
+                model: SensorType,
+                as: 'types',
+                through: {
+                    attributes: ['id'],
+                    as: 'sensorTypeItem'
+                },
+            }]
+        })
+
+        return new NaturartResponse<Product[]>({
+            msg: 'Search performs successful',
+            data: result
+        })
     }
 
     async getAll(): Promise<NaturartResponse<Client[]>> {
@@ -83,7 +114,7 @@ export class ClientService extends AbstractService<Client> {
     }
 
     async isCpfInUse(cpf: string): Promise<NaturartResponse<boolean>> {
-        const result = await Client.count({where:{cpf}});
+        const result = await Client.count({where: {cpf}});
 
         return new NaturartResponse<boolean>({
             data: result > 0,
@@ -92,7 +123,7 @@ export class ClientService extends AbstractService<Client> {
     }
 
     async isEmailInUse(email: string): Promise<NaturartResponse<boolean>> {
-        const result = await Client.count({where:{email}});
+        const result = await Client.count({where: {email}});
 
         return new NaturartResponse<boolean>({
             data: result > 0,

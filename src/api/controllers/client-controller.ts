@@ -38,6 +38,8 @@ export class ClientController extends AbstractController<Client> {
         }
     }
 
+
+
     async getByEmail(req: Request, res: Response): Promise<Response> {
         try {
             const {email} = AttributeExtractor.extract(req.query, {
@@ -49,6 +51,26 @@ export class ClientController extends AbstractController<Client> {
                 }
             });
             return res.json(await this.service.getByEmail(email));
+        } catch (e: any) {
+            return res.status(400).json(
+                new NaturartResponse<boolean>({
+                    msg: e.message ?? 'Inspected Error',
+                    isError: true,
+                }));
+        }
+    }
+
+    async getProductsByEmail(req: Request, res: Response): Promise<Response> {
+        try {
+            const {email} = AttributeExtractor.extract(req.query, {
+                attributes: {
+                    email: {
+                        isRequired: true,
+                        notEmpty: true,
+                    }
+                }
+            });
+            return res.json(await this.service.getProductsByEmail(email));
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({

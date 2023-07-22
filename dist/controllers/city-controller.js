@@ -169,9 +169,7 @@ class CityController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                const response = yield this.service.getDistrictsByCity(city);
-                response.msg = 'Search performs successfully';
-                return res.json(response);
+                return res.json(yield this.service.getDistrictsByCity(city));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.NaturartResponse({
@@ -203,9 +201,7 @@ class CityController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                const response = yield this.service.getQttByNameAndState(city, state);
-                response.msg = 'Search performs successfully';
-                return res.json(response);
+                return res.json(yield this.service.getQttByNameAndState(city, state));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.NaturartResponse({
@@ -233,9 +229,7 @@ class CityController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                const response = yield this.service.isCityInState(city, state);
-                response.msg = 'Search performs successfully';
-                return res.json(response);
+                return res.json(yield this.service.isCityInState(city, state));
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.NaturartResponse({

@@ -16,8 +16,8 @@ exports.StateService = void 0;
 const state_1 = require("../models/state");
 const abstract_service_1 = require("../abstract/abstract-service");
 const utils_1 = require("../utils/utils");
-const district_1 = require("../models/district");
 const naturart_response_1 = __importDefault(require("../utils/naturart-response"));
+const city_1 = require("../models/city");
 class StateService extends abstract_service_1.AbstractService {
     constructor() {
         super(state_1.State);
@@ -26,12 +26,12 @@ class StateService extends abstract_service_1.AbstractService {
      * Get a model with base in the name.
      *
      * @param name : string Name of model.
-     * @returns {Promise<District[]>}  A array of model with base in the name.
+     * @returns {Promise<State[]>}  A array of model with base in the name.
      */
     getByName(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield district_1.District.findAll({
-                where: utils_1.Utils.where('`District`.`name`', name),
+            const result = yield state_1.State.findAll({
+                where: utils_1.Utils.where('`State`.`name`', name),
                 include: Object.values(state_1.State.associations),
             });
             return new naturart_response_1.default({
@@ -48,8 +48,8 @@ class StateService extends abstract_service_1.AbstractService {
      */
     getQttByName(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield district_1.District.count({
-                where: utils_1.Utils.where('`District`.`name`', name),
+            const result = yield state_1.State.count({
+                where: utils_1.Utils.where('`State`.`name`', name),
             });
             return new naturart_response_1.default({
                 data: result,
@@ -66,7 +66,7 @@ class StateService extends abstract_service_1.AbstractService {
     isNameInUse(name) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = (yield state_1.State.findOne({
-                where: utils_1.Utils.where('`District`.`name`', name)
+                where: utils_1.Utils.where('`State`.`name`', name)
             })) != null;
             return new naturart_response_1.default({
                 data: result,
@@ -129,6 +129,32 @@ class StateService extends abstract_service_1.AbstractService {
             return new naturart_response_1.default({
                 msg: 'Search performs successfully',
                 data: result,
+            });
+        });
+    }
+    /**
+     * Returns a state and your cities with base in the id.
+     *
+     * @param id : number Id to find.
+     * @returns {Promise<State | null>} A model with base in the id.
+     */
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.model.findByPk(id, {
+                include: {
+                    as: 'cities',
+                    model: city_1.City
+                }
+            });
+            if (!result) {
+                return new naturart_response_1.default({
+                    isError: true,
+                    msg: 'Undefined entity with id ' + id
+                });
+            }
+            return new naturart_response_1.default({
+                data: result,
+                msg: ''
             });
         });
     }

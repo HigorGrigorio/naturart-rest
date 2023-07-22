@@ -47,15 +47,14 @@ class AbstractController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let attributes = attribute_extractor_1.AttributeExtractor.extract(req.query, {
-                    all: true
+                    all: true,
                 });
                 const response = yield this.service.add(attributes);
-                response.msg = 'Operation performs successfully';
                 return res.json(response);
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
-                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : "Inspected Error",
                     isError: true,
                 }));
             }
@@ -76,16 +75,16 @@ class AbstractController {
                         id: {
                             isRequired: true,
                             notEmpty: true,
-                        }
-                    }
+                        },
+                    },
                 });
                 const response = yield this.service.deleteById(attributes);
-                response.msg = 'Operation performs successfully';
+                response.msg = "Operation performs successfully";
                 return res.json(response);
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
-                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : "Inspected Error",
                     isError: true,
                 }));
             }
@@ -102,12 +101,12 @@ class AbstractController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield this.service.getAll();
-                response.msg = 'Operation performs successfully';
+                response.msg = "Operation performs successfully";
                 return res.json(response);
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
-                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : "Inspected Error",
                     isError: true,
                 }));
             }
@@ -128,21 +127,21 @@ class AbstractController {
                         id: {
                             isRequired: true,
                             notEmpty: true,
-                        }
-                    }
+                        },
+                    },
                 });
                 const response = yield this.service.getById(id);
                 if (!response.isError) {
-                    response.msg = 'Operation performs successfully';
+                    response.msg = "Operation performs successfully";
                 }
                 else {
-                    response.msg = 'Undefined entity with id';
+                    response.msg = "Undefined entity with id";
                 }
                 return res.json(response);
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
-                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : "Inspected Error",
                     isError: true,
                 }));
             }
@@ -164,17 +163,16 @@ class AbstractController {
                         id: {
                             isRequired: true,
                             notEmpty: true,
-                        }
-                    }
+                        },
+                    },
                 });
                 const { id } = attributes;
                 const response = yield this.service.update({ id }, attributes);
-                response.msg = 'Operation performs successfully';
                 return res.json(response);
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({
-                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : 'Inspected Error',
+                    msg: (_a = e.message) !== null && _a !== void 0 ? _a : "Inspected Error",
                     isError: true,
                 }));
             }

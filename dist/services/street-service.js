@@ -30,8 +30,7 @@ class StreetService extends abstract_service_1.AbstractService {
     getByName(name) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield street_1.Street.findAll({
-                where: utils_1.Utils.where('`Street`.`name`', name),
-                include: Object.values(this.model.associations),
+                where: utils_1.Utils.where('`Street`.`name`', name)
             });
             return new naturart_response_1.default({
                 data: result,

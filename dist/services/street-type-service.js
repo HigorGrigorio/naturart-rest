@@ -31,7 +31,6 @@ class StreetTypeService extends abstract_service_1.AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield street_type_1.StreetType.findAll({
                 where: utils_1.Utils.where('`StreetType`.`name`', name),
-                include: Object.values(street_type_1.StreetType.associations),
             });
             return new naturart_response_1.default({
                 data: result,
@@ -83,7 +82,6 @@ class StreetTypeService extends abstract_service_1.AbstractService {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield street_type_1.StreetType.findAll({
                 where: utils_1.Utils.where('`StreetType`.`initials`', initials),
-                include: Object.values(street_type_1.StreetType.associations),
             });
             if (!result) {
                 return new naturart_response_1.default({
