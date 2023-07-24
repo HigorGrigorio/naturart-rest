@@ -38,7 +38,9 @@ const models: any = [
     Measurement
 ];
 
-const connection = new Sequelize(config);
+const connection = new Sequelize({
+    ...config,
+});
 
 Object.keys(models).forEach((key => {
     models[Number(key)].initialize(connection);

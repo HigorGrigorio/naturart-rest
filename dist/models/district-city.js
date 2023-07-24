@@ -16,7 +16,10 @@ class DistrictCity extends sequelize_1.Model {
             },
             createdAt: sequelize_1.DataTypes.DATE,
             updatedAt: sequelize_1.DataTypes.DATE,
-        }, { sequelize: sequelize });
+        }, {
+            sequelize: sequelize,
+            tableName: 'districtcity'
+        });
     }
     /**
      * Create a database association to models instance.

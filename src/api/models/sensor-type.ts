@@ -48,7 +48,7 @@ export class SensorType extends Model<InferAttributes<SensorType>, InferCreation
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'sensortype'});
     }
 
     /**

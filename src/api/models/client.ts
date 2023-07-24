@@ -4,7 +4,9 @@ import {
     ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    Model, ModelStatic, NonAttribute,
+    Model,
+    ModelStatic,
+    NonAttribute,
     Sequelize
 } from "sequelize";
 import {Address} from "./address";
@@ -105,17 +107,20 @@ export class Client extends Model<InferAttributes<Client>, InferCreationAttribut
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'client',
+            });
     }
 
     public static hashPassword(password: string): string {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     }
 
-    comparePassword(password: string): boolean {
+    passwordMatch(password: string): boolean {
         const hash = this.getDataValue('password');
 
-        if(!password || !hash) return false;
+        if (!password || !hash) return false;
         if (password === hash) return true;
 
         return bcrypt.compareSync(password, hash);

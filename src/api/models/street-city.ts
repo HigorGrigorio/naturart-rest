@@ -63,7 +63,7 @@ export class StreetCity extends Model<InferAttributes<StreetCity>, InferCreation
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'streetcity'});
     }
 
     /**

@@ -50,7 +50,7 @@ export class Street extends Model<InferAttributes<Street>, InferCreationAttribut
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'street'});
     }
 
     public static associations: {

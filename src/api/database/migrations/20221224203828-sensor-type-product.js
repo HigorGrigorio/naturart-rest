@@ -4,7 +4,7 @@ const {DataTypes, literal} = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return await queryInterface.createTable('SensorTypeProduct', {
+    return await queryInterface.createTable('sensortypeproduct', {
         id: {
             type: Sequelize.INTEGER.UNSIGNED,
             allowNull: false,

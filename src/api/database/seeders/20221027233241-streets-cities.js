@@ -4,7 +4,7 @@ const {literal} = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return await queryInterface.bulkInsert('StreetCity', [
+        return await queryInterface.bulkInsert('streetcity', [
             {
                 id: 1,
                 idStreet: 1,

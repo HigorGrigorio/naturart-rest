@@ -54,7 +54,7 @@ export class SensorTypeProduct extends Model<InferAttributes<SensorTypeProduct>,
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'sensortypeproduct'});
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

@@ -11,7 +11,7 @@ module.exports = {
          * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
          */
 
-        return await queryInterface.createTable('ZipCode', {
+        return await queryInterface.createTable('zipcode', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,

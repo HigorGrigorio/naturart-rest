@@ -1,33 +1,31 @@
 import {
-    Model,
+    Association,
+    CreationOptional,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
+    Model,
     ModelStatic,
-    Association
+    Sequelize
 } from "sequelize";
-import {Sequelize} from "sequelize";
-import {State} from "./state";
-import {StreetCity} from "./street-city";
 import {City} from "./city";
 
 export class District extends Model<InferAttributes<District>, InferCreationAttributes<District>> {
+    public static associations: {
+        city: Association<District, City>
+    }
     /**
      * Identifier of district.
      */
     declare id: CreationOptional<number>;
-
     /**
      * Name of district.
      */
     declare name: string;
-
     /**
      * Date of creation.
      */
     declare createdAt: CreationOptional<Date>;
-
     /**
      * Date of last update.
      */
@@ -52,23 +50,32 @@ export class District extends Model<InferAttributes<District>, InferCreationAttr
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
-    }
+            {
+                sequelize: sequelize,
+                tableName: 'district'});
+            }
 
-    public static associations: {
-        city: Association<District, City>
+        /**
+         * Create a database association to models instance.
+         *
+         * @param models Models of Sequelize instance.
+         */
+    public static
+        associate(models
+    :
+        {
+            [key
+        :
+            string
+        ]:
+            ModelStatic<Model>;
+        }
+    )
+        {
+            this.belongsToMany(models.City, {
+                through: 'DistrictCity',
+                foreignKey: 'idDistrict',
+                as: 'districts'
+            })
+        }
     }
-
-    /**
-     * Create a database association to models instance.
-     *
-     * @param models Models of Sequelize instance.
-     */
-    public static associate(models: { [key: string]: ModelStatic<Model>; }) {
-        this.belongsToMany(models.City, {
-            through: 'DistrictCity',
-            foreignKey: 'idDistrict',
-            as: 'districts'
-        })
-    }
-}

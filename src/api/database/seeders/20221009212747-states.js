@@ -3,7 +3,7 @@
 const {literal} = require("sequelize");
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return await queryInterface.bulkInsert('State', [
+        return await queryInterface.bulkInsert('state', [
             {
                 id: 1,
                 name: 'São Paulo',

@@ -1,14 +1,14 @@
 import {
-    Model,
+    CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
-    ForeignKey,
-    Association, ModelStatic, NonAttribute
+    Model,
+    ModelStatic,
+    NonAttribute,
+    Sequelize
 } from "sequelize";
-
-import {Sequelize} from "sequelize";
 import {District} from "./district";
 import {City} from "./city";
 
@@ -62,7 +62,10 @@ export class DistrictCity extends Model<InferAttributes<DistrictCity>, InferCrea
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'districtcity'
+            });
     }
 
     /**

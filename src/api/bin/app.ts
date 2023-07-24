@@ -65,7 +65,7 @@ export class App {
              * Generic route for controller.
              */
             .use(Router()
-                .all('/rest/:controller/:method/', async (req, res) => {
+                .all('/naturart/rest/:controller/:method/', async (req, res) => {
                     return await this.dispatcher
                         .dispatch(req, res);
                 })

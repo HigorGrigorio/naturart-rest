@@ -10,6 +10,7 @@ import {SensorType} from "../models/sensor-type";
 import {Invoice} from "../models/invoice";
 import {InvoiceItem} from "../models/invoice-item";
 
+
 export class ClientService extends AbstractService<Client> {
     /**
      * Construct a new instance of entity.
@@ -145,9 +146,7 @@ export class ClientService extends AbstractService<Client> {
             })
         }
 
-        const result = await Client.findOne({where: {email}, attributes: {
-            exclude: ['password']
-            }});
+        const result = await Client.findOne({where: {email}});
 
         if (!result) {
             return new NaturartResponse<Client>({
@@ -171,7 +170,7 @@ export class ClientService extends AbstractService<Client> {
         }
 
         // check password.
-        if (!result.data.comparePassword(pass)) {
+        if (!result.data.passwordMatch(pass)) {
             return new NaturartResponse<Client>({
                 isError: true,
                 msg: 'Invalid Login Credentials'
@@ -196,7 +195,7 @@ export class ClientService extends AbstractService<Client> {
 
         const client = response.data;
 
-        if (!client.comparePassword(currentPassword)) {
+        if (!client.passwordMatch(currentPassword)) {
             return new NaturartResponse<void>({
                 isError: true,
                 msg: 'Invalid Credentials'

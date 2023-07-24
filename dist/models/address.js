@@ -31,7 +31,10 @@ class Address extends sequelize_1.Model {
             },
             createdAt: sequelize_1.DataTypes.DATE,
             updatedAt: sequelize_1.DataTypes.DATE,
-        }, { sequelize: sequelize });
+        }, {
+            sequelize: sequelize,
+            tableName: 'address',
+        });
     }
     /**
      * Create a database association to models instance.

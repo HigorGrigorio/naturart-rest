@@ -148,9 +148,7 @@ class ClientService extends abstract_service_1.AbstractService {
                     msg: `The email not is valid`
                 });
             }
-            const result = yield client_1.Client.findOne({ where: { email }, attributes: {
-                    exclude: ['password']
-                } });
+            const result = yield client_1.Client.findOne({ where: { email } });
             if (!result) {
                 return new naturart_response_1.default({
                     isError: true,
@@ -171,7 +169,7 @@ class ClientService extends abstract_service_1.AbstractService {
                 return result;
             }
             // check password.
-            if (!result.data.comparePassword(pass)) {
+            if (!result.data.passwordMatch(pass)) {
                 return new naturart_response_1.default({
                     isError: true,
                     msg: 'Invalid Login Credentials'
@@ -192,7 +190,7 @@ class ClientService extends abstract_service_1.AbstractService {
                 });
             }
             const client = response.data;
-            if (!client.comparePassword(currentPassword)) {
+            if (!client.passwordMatch(currentPassword)) {
                 return new naturart_response_1.default({
                     isError: true,
                     msg: 'Invalid Credentials'

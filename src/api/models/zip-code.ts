@@ -81,7 +81,7 @@ export class ZipCode extends Model<InferAttributes<ZipCode>, InferCreationAttrib
             },
             createdAt: DataTypes.DATE,
             updatedAt: DataTypes.DATE,
-        }, {sequelize})
+        }, {sequelize, tableName: 'zipcode'})
     }
 
     public static associations: {
