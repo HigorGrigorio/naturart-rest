@@ -32,7 +32,7 @@ class Localization extends sequelize_1.Model {
             },
             createdAt: sequelize_1.DataTypes.DATE,
             updatedAt: sequelize_1.DataTypes.DATE,
-        }, { sequelize });
+        }, { sequelize, tableName: 'localization' });
     }
     static associate(models) {
         this.belongsTo(models.Product, {

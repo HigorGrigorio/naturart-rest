@@ -3,7 +3,8 @@ import {
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    Model, ModelStatic,
+    Model,
+    ModelStatic,
     Sequelize
 } from "sequelize";
 
@@ -77,7 +78,10 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'address',
+            });
     }
 
     /**
@@ -95,7 +99,7 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
             as: 'streetCity',
             foreignKey: 'idStreetCity'
         });
-        
+
         this.belongsTo(models.DistrictCity, {
             as: 'districtCity',
             foreignKey: 'idDistrictCity'

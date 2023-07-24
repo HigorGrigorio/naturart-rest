@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.bulkInsert('SensorType', [
+        await queryInterface.bulkInsert('sensortype', [
             {
                 id: 1,
                 name: 'Temperatura',

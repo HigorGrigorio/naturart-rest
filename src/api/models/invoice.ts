@@ -1,9 +1,11 @@
 import {
     CreationOptional,
-    DataTypes, ForeignKey,
+    DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    Model, ModelStatic,
+    Model,
+    ModelStatic,
     Sequelize
 } from "sequelize";
 import {Client} from "./client";
@@ -67,7 +69,10 @@ export class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttrib
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'invoice'
+            });
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

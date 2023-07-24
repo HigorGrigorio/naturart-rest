@@ -65,7 +65,11 @@ class ClientController extends abstract_controller_1.AbstractController {
                         }
                     }
                 });
-                return res.json(yield this.service.getByEmail(email));
+                let response = yield this.service.getByEmail(email);
+                if (response.data) {
+                    response.data.setDataValue('password', '');
+                }
+                return res.json();
             }
             catch (e) {
                 return res.status(400).json(new naturart_response_1.default({

@@ -41,7 +41,7 @@ const models = [
     localization_1.default,
     measurement_1.Measurement
 ];
-const connection = new sequelize_1.Sequelize(database_1.default);
+const connection = new sequelize_1.Sequelize(Object.assign({}, database_1.default));
 Object.keys(models).forEach((key => {
     models[Number(key)].initialize(connection);
 }));

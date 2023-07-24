@@ -45,12 +45,15 @@ class Client extends sequelize_1.Model {
             },
             createdAt: sequelize_1.DataTypes.DATE,
             updatedAt: sequelize_1.DataTypes.DATE,
-        }, { sequelize: sequelize });
+        }, {
+            sequelize: sequelize,
+            tableName: 'client',
+        });
     }
     static hashPassword(password) {
         return bcrypt_1.default.hashSync(password, bcrypt_1.default.genSaltSync(10));
     }
-    comparePassword(password) {
+    passwordMatch(password) {
         const hash = this.getDataValue('password');
         if (!password || !hash)
             return false;

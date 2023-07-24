@@ -65,7 +65,7 @@ export class State extends Model<InferAttributes<State, { omit: 'cities' }>, Inf
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'state'});
     }
 
     /**

@@ -61,7 +61,7 @@ export class Product extends Model<InferAttributes<Product>, InferCreationAttrib
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {sequelize: sequelize, tableName: 'product'});
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

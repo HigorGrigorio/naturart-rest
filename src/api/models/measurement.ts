@@ -63,7 +63,7 @@ export class Measurement extends Model<InferAttributes<Measurement>, InferCreati
             },
             createdAt: DataTypes.DATE,
             updatedAt: DataTypes.DATE,
-        }, {sequelize});
+        }, {sequelize, tableName: 'measurement'});
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

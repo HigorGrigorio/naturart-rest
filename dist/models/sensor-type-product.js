@@ -20,7 +20,7 @@ class SensorTypeProduct extends sequelize_1.Model {
             },
             createdAt: sequelize_1.DataTypes.DATE,
             updatedAt: sequelize_1.DataTypes.DATE,
-        }, { sequelize: sequelize });
+        }, { sequelize: sequelize, tableName: 'sensortypeproduct' });
     }
     static associate(models) {
         this.hasMany(models.Measurement, {

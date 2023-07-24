@@ -1,17 +1,17 @@
 import {
-    Model,
+    Association,
+    CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
-    ForeignKey,
-    Association, ModelStatic
+    Model,
+    ModelStatic,
+    Sequelize
 } from "sequelize";
-import {Sequelize} from "sequelize";
 import {State} from "./state";
 import {District} from "./district";
 import {StreetCity} from "./street-city";
-import {Address} from "./address";
 
 export class City extends Model<InferAttributes<City>, InferCreationAttributes<City>> {
     /**
@@ -58,7 +58,10 @@ export class City extends Model<InferAttributes<City>, InferCreationAttributes<C
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'city'
+            });
     }
 
     public static associations: {

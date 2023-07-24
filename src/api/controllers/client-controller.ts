@@ -37,6 +37,7 @@ export class ClientController extends AbstractController<Client> {
         }
     }
 
+
     async getByEmail(req: Request, res: Response): Promise<Response> {
         try {
             const {email} = AttributeExtractor.extract(req.query, {
@@ -47,7 +48,13 @@ export class ClientController extends AbstractController<Client> {
                     }
                 }
             });
-            return res.json(await this.service.getByEmail(email));
+            let response = await this.service.getByEmail(email)
+
+            if (response.data) {
+                response.data.setDataValue('password', '');
+            }
+
+            return res.json();
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({

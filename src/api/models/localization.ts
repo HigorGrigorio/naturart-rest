@@ -65,8 +65,8 @@ export class Localization extends Model<InferAttributes<Localization>, InferCrea
                 allowNull: false
             },
             idProduct: {
-              type: DataTypes.INTEGER.UNSIGNED,
-              allowNull: false,
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             startDate: {
                 type: DataTypes.DATE,
@@ -78,7 +78,7 @@ export class Localization extends Model<InferAttributes<Localization>, InferCrea
             },
             createdAt: DataTypes.DATE,
             updatedAt: DataTypes.DATE,
-        }, {sequelize});
+        }, {sequelize, tableName: 'localization'});
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {

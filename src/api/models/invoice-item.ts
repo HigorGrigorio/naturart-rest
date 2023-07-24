@@ -4,7 +4,8 @@ import {
     ForeignKey,
     InferAttributes,
     InferCreationAttributes,
-    Model, ModelStatic,
+    Model,
+    ModelStatic,
     Sequelize
 } from "sequelize";
 import {Invoice} from "./invoice";
@@ -72,7 +73,10 @@ export class InvoiceItem extends Model<InferAttributes<InvoiceItem>, InferCreati
                 createdAt: DataTypes.DATE,
                 updatedAt: DataTypes.DATE,
             },
-            {sequelize: sequelize});
+            {
+                sequelize: sequelize,
+                tableName: 'invoiceitem'
+            });
     }
 
     public static associate(models: { [key: string]: ModelStatic<Model>; }) {
