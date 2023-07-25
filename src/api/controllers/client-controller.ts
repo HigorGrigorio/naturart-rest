@@ -54,7 +54,7 @@ export class ClientController extends AbstractController<Client> {
                 response.data.setDataValue('password', '');
             }
 
-            return res.json();
+            return res.json(response);
         } catch (e: any) {
             return res.status(400).json(
                 new NaturartResponse<boolean>({

@@ -10,10 +10,7 @@
     "windowsDebug": "@powershell -Command $env:DEBUG='*' & @powershell -Command $env:DEBUG_COLORS=1; sucrase-node ./dist/index.js"
   },
   "dependencies": {
-<<<<<<<<< Temporary merge branch 1
-=========
     "bcrypt": "^5.1.0",
->>>>>>>>> Temporary merge branch 2
     "cookie-parser": "~1.4.4",
     "cross-fetch": "^3.1.5",
     "debug": "~2.6.9",
@@ -23,16 +20,14 @@
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.25.1",
-    "sucrase": "^3.28.0"
+    "sucrase": "^3.28.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
-<<<<<<<<< Temporary merge branch 1
-    "@types/sequelize": "^4.28.14",
-=========
     "@types/bcrypt": "^5.0.0",
->>>>>>>>> Temporary merge branch 2
     "@types/express": "^4.17.14",
     "@types/node": "^18.11.16",
+    "@types/sequelize": "^4.28.14",
     "concurrently": "^7.4.0",
     "nodemon": "^2.0.20",
     "sequelize-cli": "^6.5.1",
