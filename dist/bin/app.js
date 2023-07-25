@@ -75,7 +75,7 @@ class App {
              * Generic route for controller.
              */
             .use((0, express_1.Router)()
-            .all('/rest/:controller/:method/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            .all('/naturart/rest/:controller/:method/', (req, res) => __awaiter(this, void 0, void 0, function* () {
             return yield this.dispatcher
                 .dispatch(req, res);
         })));
