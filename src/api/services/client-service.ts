@@ -46,11 +46,11 @@ export class ClientService extends AbstractService<Client> {
             });
         }
 
-        // hash password.
-        const {password} = attributes;
-        attributes.password = Client.hashPassword(password);
+        //Hashing Password
+        const {password, ...rest} = attributes;
+        var newPassword = Client.hashPassword(password)
 
-        const result = await this.model.create({...attributes});
+        const result = await this.model.create({...rest, password: newPassword});
 
         return new NaturartResponse<Client>({
             data: result
